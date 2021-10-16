@@ -210,3 +210,41 @@ with open('training.csv') as training_file:
     plt.scatter(age_class_3, [-0.3] * class3_count_age, color='b', marker="+")
 
     plt.show()
+
+    ''' PART 2 '''
+    print("PART 2")
+    matrix = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]
+
+    count = 0
+    for i in list_of_rows:
+        max_prediction = max(class_1_posteriors[count], class_2_posteriors[count], class_3_posteriors[count])
+
+        if max_prediction == class_1_posteriors[count]:
+            if int(i[1]) == 1:
+                matrix[0][0] += 1
+            elif int(i[1]) == 2:
+                matrix[1][0] += 1
+            elif int(i[1]) == 3:
+                matrix[2][0] += 1
+        elif max_prediction == class_2_posteriors[count]:
+            if int(i[1]) == 1:
+                matrix[0][1] += 1
+            elif int(i[1]) == 2:
+                matrix[1][1] += 1
+            elif int(i[1]) == 3:
+                matrix[2][1] += 1
+        elif max_prediction == class_3_posteriors[count]:
+            if int(i[1]) == 1:
+                matrix[0][2] += 1
+            elif int(i[1]) == 2:
+                matrix[1][2] += 1
+            elif int(i[1]) == 3:
+                matrix[2][2] += 1
+        count += 1
+
+    print(matrix)
+
