@@ -206,6 +206,10 @@ with open('training.csv') as training_file:
 
     plt.legend(["P(C=1|X)", "P(C=2|X)", "P(C=3|X)", "P(X|C=1)", "P(X|C=2)", "P(X|C=3)"])
 
+    plt.scatter(age_class_1, [-0.1] * class1_count_age, color='r', marker="x")
+    plt.scatter(age_class_2, [-0.2] * class2_count_age, color='g', marker="o")
+    plt.scatter(age_class_3, [-0.3] * class3_count_age, color='b', marker="+")
+
     plt.show()
 
     # age = set()
