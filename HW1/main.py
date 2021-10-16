@@ -194,7 +194,6 @@ with open('training.csv') as training_file:
     plot_posterior_class_3 = posteriors(list(age_set), plot_likelihood_class_3, plot_likelihood_class_2,
                                         plot_likelihood_class_1, class_1_priors, class_2_priors, class_3_priors)
 
-
     plt.plot(list(age_set), plot_posterior_class_1, color='red', linestyle='dashed')
     plt.plot(list(age_set), plot_posterior_class_2, color='green', linestyle='dashed')
     plt.plot(list(age_set), plot_posterior_class_3, color='blue', linestyle='dashed')
@@ -211,61 +210,3 @@ with open('training.csv') as training_file:
     plt.scatter(age_class_3, [-0.3] * class3_count_age, color='b', marker="+")
 
     plt.show()
-
-    # age = set()
-    # for i in list_of_rows:
-    #     age.add(int(i[0]))
-    #
-    # print('standart deviation ', std(list_of_rows, "1"), std(list_of_rows, "2"), std(list_of_rows, "3"))
-    # print('likelihoods ', likelihoods(age))
-    #
-    #
-    #
-    # print('-------------------------')
-    # print(priors(list_of_rows))
-    # x, y, z = priors(list_of_rows)
-    # print(x, y, z)
-    # print('-------------------------')
-    # print('likelihoods ', likelihoods(list_of_rows))
-    # print('posteriors ', posteriors(list_of_rows))
-    #
-    #
-    # ''' PLOTTING '''
-    # print('-------------------------')
-    # list_of_likelihoods = likelihoods(list_of_rows)
-    # list_of_posteriors = posteriors(list_of_rows)
-    #
-    # likelihood_class_1 = []
-    # likelihood_class_2 = []
-    # likelihood_class_3 = []
-    #
-    # posteriors_class_1 = []
-    # posteriors_class_2 = []
-    # posteriors_class_3 = []
-    #
-    # for i in list_of_likelihoods:
-    #     # print('inside loop ' , i)
-    #     likelihood_class_1.append(float(i[0]))
-    #     likelihood_class_2.append(float(i[1]))
-    #     likelihood_class_3.append(float(i[2]))
-    #
-    # for i in list_of_posteriors:
-    #     posteriors_class_1.append(float(i[0]))
-    #     posteriors_class_2.append(float(i[1]))
-    #     posteriors_class_3.append(float(i[2]))
-    #
-    # print(len(likelihood_class_1))
-    #
-    # print('class 1 likelihood ', likelihood_class_1)
-    # # print(len(ages_class_1))
-    # plt.xlabel('Age')
-    # plt.ylim(0, 1)
-    # plt.scatter(list(age), likelihood_class_1)
-    # plt.scatter(list(age), likelihood_class_2)
-    # plt.scatter(list(age), likelihood_class_3)
-    #
-    # plt.scatter(list(age), posteriors_class_1, marker='x')
-    # plt.scatter(list(age), posteriors_class_2, marker='x')
-    # plt.scatter(list(age), posteriors_class_3, marker='x')
-    #
-    # plt.show()
