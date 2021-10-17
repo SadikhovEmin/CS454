@@ -212,8 +212,7 @@ with open('training.csv') as training_file:
     plt.show()
 
     ''' PART 2 '''
-    print("PART 2")
-    matrix = [
+    matrix_a = [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]
@@ -225,26 +224,70 @@ with open('training.csv') as training_file:
 
         if max_prediction == class_1_posteriors[count]:
             if int(i[1]) == 1:
-                matrix[0][0] += 1
+                matrix_a[0][0] += 1
             elif int(i[1]) == 2:
-                matrix[1][0] += 1
+                matrix_a[0][1] += 1
             elif int(i[1]) == 3:
-                matrix[2][0] += 1
+                matrix_a[0][2] += 1
         elif max_prediction == class_2_posteriors[count]:
             if int(i[1]) == 1:
-                matrix[0][1] += 1
+                matrix_a[1][0] += 1
             elif int(i[1]) == 2:
-                matrix[1][1] += 1
+                matrix_a[1][1] += 1
             elif int(i[1]) == 3:
-                matrix[2][1] += 1
+                matrix_a[1][2] += 1
         elif max_prediction == class_3_posteriors[count]:
             if int(i[1]) == 1:
-                matrix[0][2] += 1
+                matrix_a[2][0] += 1
             elif int(i[1]) == 2:
-                matrix[1][2] += 1
+                matrix_a[2][1] += 1
             elif int(i[1]) == 3:
-                matrix[2][2] += 1
+                matrix_a[2][2] += 1
         count += 1
 
-    print(matrix)
+    print(*matrix_a, sep='\n')
 
+    print("PART 2 b")
+
+    matrix_b = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]
+
+    count = 0
+    for i in list_of_rows:
+        max_prediction = max(class_1_posteriors[count], class_2_posteriors[count], class_3_posteriors[count])
+
+        if class_1_posteriors[count] > 0.75:
+            if int(i[1]) == 1:
+                matrix_b[0][0] += 1
+            elif int(i[1]) == 2:
+                matrix_b[0][1] += 1
+            elif int(i[1]) == 3:
+                matrix_b[0][2] += 1
+        elif class_2_posteriors[count] > 0.75:
+            if int(i[1]) == 1:
+                matrix_b[1][0] += 1
+            elif int(i[1]) == 2:
+                matrix_b[1][1] += 1
+            elif int(i[1]) == 3:
+                matrix_b[1][2] += 1
+        elif class_3_posteriors[count] > 0.75:
+            if int(i[1]) == 1:
+                matrix_b[2][0] += 1
+            elif int(i[1]) == 2:
+                matrix_b[2][1] += 1
+            elif int(i[1]) == 3:
+                matrix_b[2][2] += 1
+        else:
+            if int(i[1]) == 1:
+                matrix_b[3][0] += 1
+            elif int(i[1]) == 2:
+                matrix_b[3][1] += 1
+            elif int(i[1]) == 3:
+                matrix_b[3][2] += 1
+        count += 1
+
+    print(*matrix_b, sep='\n')
