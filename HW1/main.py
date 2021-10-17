@@ -2,6 +2,7 @@ from csv import reader
 import math
 import matplotlib.pyplot as plt
 
+
 def mean(age):
     values = 0
     count = 0
@@ -14,41 +15,6 @@ def mean(age):
 
 def square(x):
     return float(x) * float(x)
-
-
-''' Need to change this implementation'''
-
-
-def myPow(x, n):
-    p = 1
-    if n < 0:
-        x = 1 / x
-        n = abs(n)
-
-    # Exponentiation by Squaring
-
-    while n:
-        if n % 2:
-            p *= x
-        x *= x
-        n //= 2
-    return p
-
-
-def sqrt(x):
-    # Base cases
-    if (x == 0 or x == 1):
-        return x
-
-    # Starting from 1, try all numbers until
-    # i*i is greater than or equal to x.
-    i = 1.0
-    result = 1.0
-    while result <= x:
-        i += 1
-        result = i * i
-
-    return i
 
 
 def std(age):
@@ -94,9 +60,6 @@ def posteriors(age, class_1_likelihood, class_2_likelihood, class_3_likelihood, 
 
 
 with open('training.csv') as training_file:
-
-
-
     csv_reader = reader(training_file)
     list_of_rows = list(csv_reader)
     print(list_of_rows)
@@ -203,7 +166,7 @@ with open('training.csv') as training_file:
     plt.plot(list(age_set), plot_likelihood_class_2, color='green')
     plt.plot(list(age_set), plot_likelihood_class_3, color='purple')
     #
-
+    plt.title("Training data")
     plt.legend(["P(C=1|X)", "P(C=2|X)", "P(C=3|X)", "P(X|C=1)", "P(X|C=2)", "P(X|C=3)"])
 
     plt.scatter(age_class_1, [-0.1] * class1_count_age, color='r', marker="x")
@@ -213,6 +176,7 @@ with open('training.csv') as training_file:
     plt.show()
 
     ''' PART 2 '''
+    print("Part 2 a training")
     matrix_a = [
         [0, 0, 0],
         [0, 0, 0],
@@ -248,7 +212,7 @@ with open('training.csv') as training_file:
 
     print(*matrix_a, sep='\n')
 
-    print("PART 2 b")
+    print("PART 2 b training")
 
     matrix_b = [
         [0, 0, 0],
@@ -292,11 +256,6 @@ with open('training.csv') as training_file:
         count += 1
 
     print(*matrix_b, sep='\n')
-
-
-
-
-
 
 ''' TESTING PLOT '''
 with open('testing.csv') as testing_file:
@@ -347,6 +306,7 @@ with open('testing.csv') as testing_file:
     plt.plot(list(age_set_testing), plot_likelihood_class_2_testing, color='green')
     plt.plot(list(age_set_testing), plot_likelihood_class_3_testing, color='purple')
 
+    plt.title("Testing data")
     plt.legend(["P(C=1|X)", "P(C=2|X)", "P(C=3|X)", "P(X|C=1)", "P(X|C=2)", "P(X|C=3)"])
 
     plt.scatter(age_class_1, [-0.1] * class1_count_age, color='r', marker="x")
@@ -355,27 +315,31 @@ with open('testing.csv') as testing_file:
 
     plt.show()
 
-
-
-    class_1_likelihood_testing, class_2_likelihood_testing, class_3_likelihood_testing = likelihoods(age_testing, mean_class_1,
-                                                                             std_class_1), likelihoods(age_testing,
-                                                                                                       mean_class_2,
-                                                                                                       std_class_2), likelihoods(
+    class_1_likelihood_testing, class_2_likelihood_testing, class_3_likelihood_testing = likelihoods(age_testing,
+                                                                                                     mean_class_1,
+                                                                                                     std_class_1), likelihoods(
+        age_testing,
+        mean_class_2,
+        std_class_2), likelihoods(
         age_testing, mean_class_3, std_class_3)
 
     # Posteriors
-    class_1_posteriors_testing, class_2_posteriors_testing, class_3_posteriors_testing = posteriors(age_testing, class_1_likelihood_testing,
-                                                                            class_2_likelihood_testing,
-                                                                            class_3_likelihood_testing, class_1_priors,
-                                                                            class_2_priors,
-                                                                            class_3_priors), posteriors(age_testing,
-                                                                                                        class_2_likelihood_testing,
-                                                                                                        class_1_likelihood_testing,
-                                                                                                        class_3_likelihood_testing,
-                                                                                                        class_1_priors,
-                                                                                                        class_2_priors,
-                                                                                                        class_3_priors), posteriors(
-        age_testing, class_3_likelihood_testing, class_2_likelihood_testing, class_1_likelihood_testing, class_1_priors, class_2_priors,
+    class_1_posteriors_testing, class_2_posteriors_testing, class_3_posteriors_testing = posteriors(age_testing,
+                                                                                                    class_1_likelihood_testing,
+                                                                                                    class_2_likelihood_testing,
+                                                                                                    class_3_likelihood_testing,
+                                                                                                    class_1_priors,
+                                                                                                    class_2_priors,
+                                                                                                    class_3_priors), posteriors(
+        age_testing,
+        class_2_likelihood_testing,
+        class_1_likelihood_testing,
+        class_3_likelihood_testing,
+        class_1_priors,
+        class_2_priors,
+        class_3_priors), posteriors(
+        age_testing, class_3_likelihood_testing, class_2_likelihood_testing, class_1_likelihood_testing, class_1_priors,
+        class_2_priors,
         class_3_priors)
 
     ''' PART 2 '''
@@ -388,7 +352,8 @@ with open('testing.csv') as testing_file:
 
     count = 0
     for i in list_of_rows_test:
-        max_prediction = max(class_1_posteriors_testing[count], class_2_posteriors_testing[count], class_3_posteriors_testing[count])
+        max_prediction = max(class_1_posteriors_testing[count], class_2_posteriors_testing[count],
+                             class_3_posteriors_testing[count])
 
         if max_prediction == class_1_posteriors_testing[count]:
             if int(i[1]) == 1:
@@ -426,7 +391,8 @@ with open('testing.csv') as testing_file:
 
     count = 0
     for i in list_of_rows_test:
-        max_prediction = max(class_1_posteriors_testing[count], class_2_posteriors_testing[count], class_3_posteriors_testing[count])
+        max_prediction = max(class_1_posteriors_testing[count], class_2_posteriors_testing[count],
+                             class_3_posteriors_testing[count])
 
         if class_1_posteriors_testing[count] > 0.75:
             if int(i[1]) == 1:
