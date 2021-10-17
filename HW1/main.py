@@ -25,7 +25,6 @@ def std(age):
         result += square(float(row) - average)
         count += 1.0
 
-    # return sqrt(result / count)
     return math.sqrt(result / count)
 
 
