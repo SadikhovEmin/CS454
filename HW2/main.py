@@ -27,6 +27,7 @@ def mean(data):
 
 def part2(data):
     list_euclidean = []
+    accuracies = []
 
     for i in data:
         temp_results = []
@@ -95,11 +96,16 @@ def part2(data):
             for j in range(len(confusion_matrix[i])):
                 if i == j:
                     count += confusion_matrix[i][j]
+        accuracies.append((count / len(data)))
 
         print('Accuracy : ', (count / len(data)))
 
         print("Confusion matrix k = ", k)
         print(*confusion_matrix, sep='\n')
+    plt.plot([1, 3, 5, 7, 9], accuracies)
+    plt.xlabel('K')
+    plt.ylabel('Accuracy')
+    plt.show()
 
 
 def calculate_confusion_matrix(csv):
@@ -183,7 +189,7 @@ with open('training.csv') as training_file:
     plt.legend(['Iris-setosa', 'Iris-versicolor', 'Iris-virginica', 'Iris-setosa Mean', 'Iris-versicolor Mean',
                 'Iris-virginica Mean'])
 
-    # plt.show()
+    plt.show()
 
 with open('testing.csv') as testing_file:
     csv_reader = reader(testing_file)
@@ -203,8 +209,8 @@ with open('testing.csv') as testing_file:
     part2(training_csv)
     print('Testing part 2')
     part2(testing_csv)
-
-if __name__ == '__main__':
-    print('Length : ', petal_length_setosa_mean, 'Width : ', petal_width_setosa_mean)
-    print('Length : ', petal_length_versicolor_mean, 'Width : ', petal_width_versicolor_mean)
-    print('Length : ', petal_length_virginica_mean, 'Width : ', petal_width_virginica_mean)
+#
+# if __name__ == '__main__':
+#     print('Length : ', petal_length_setosa_mean, 'Width : ', petal_width_setosa_mean)
+#     print('Length : ', petal_length_versicolor_mean, 'Width : ', petal_width_versicolor_mean)
+#     print('Length : ', petal_length_virginica_mean, 'Width : ', petal_width_virginica_mean)
