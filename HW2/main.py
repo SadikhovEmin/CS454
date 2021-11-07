@@ -2,6 +2,18 @@ from csv import reader
 import math
 import matplotlib.pyplot as plt
 
+''' VARIABLES '''
+training_csv = None
+testing_csv = None
+petal_length_setosa, petal_width_setosa = [], []
+petal_length_versicolor, petal_width_versicolor = [], []
+petal_length_virginica, petal_width_virginica = [], []
+
+''' MEANS '''
+petal_length_setosa_mean, petal_width_setosa_mean = 0, 0
+petal_length_versicolor_mean, petal_width_versicolor_mean = 0, 0
+petal_length_virginica_mean, petal_width_virginica_mean = 0, 0
+
 
 def mean(data):
     values = 0
@@ -11,6 +23,83 @@ def mean(data):
         count += 1
 
     return values / count
+
+
+def part2(data):
+    list_euclidean = []
+
+    for i in data:
+        temp_results = []
+
+        # if data == training_csv:
+        if len(data) > 60:
+            for j in training_csv:
+                if i == j:
+                    temp_results.append([math.inf, j[2]])
+                else:
+                    temp_results.append([math.sqrt(
+                        math.pow((float(i[0]) - float(j[0])), 2) + math.pow((float(i[1]) - float(j[1])),
+                                                                            2)), j[2]])
+            list_euclidean.append(sorted(temp_results))  # Sorting all of the euclidean
+
+        else:
+            for j in training_csv:
+                temp_results.append([math.sqrt(
+                    math.pow((float(i[0]) - float(j[0])), 2) + math.pow((float(i[1]) - float(j[1])),
+                                                                        2)), j[2]])
+            list_euclidean.append(sorted(temp_results))  # Sorting all of the euclidean
+
+    for k in range(1, 10, 2):
+        confusion_matrix = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]
+
+        for i in list_euclidean:
+            setosa, versicolor, virginica = 0, 0, 0
+
+            for j in range(k):
+                if i[j][1] == "Iris-setosa":
+                    setosa += 1
+                elif i[j][1] == "Iris-versicolor":
+                    versicolor += 1
+                elif i[j][1] == "Iris-virginica":
+                    virginica += 1
+
+            if virginica > setosa and virginica > versicolor:
+                if data[list_euclidean.index(i)][2] == "Iris-setosa":
+                    confusion_matrix[2][0] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-versicolor":
+                    confusion_matrix[2][1] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-virginica":
+                    confusion_matrix[2][2] += 1
+            elif setosa > versicolor and setosa > virginica:
+                if data[list_euclidean.index(i)][2] == "Iris-setosa":
+                    confusion_matrix[0][0] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-versicolor":
+                    confusion_matrix[0][1] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-virginica":
+                    confusion_matrix[0][2] += 1
+            elif versicolor > setosa and versicolor > virginica:
+                if data[list_euclidean.index(i)][2] == "Iris-setosa":
+                    confusion_matrix[1][0] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-versicolor":
+                    confusion_matrix[1][1] += 1
+                if data[list_euclidean.index(i)][2] == "Iris-virginica":
+                    confusion_matrix[1][2] += 1
+
+        count = 0
+
+        for i in range(len(confusion_matrix)):
+            for j in range(len(confusion_matrix[i])):
+                if i == j:
+                    count += confusion_matrix[i][j]
+
+        print('Accuracy : ', (count / len(data)))
+
+        print("Confusion matrix k = ", k)
+        print(*confusion_matrix, sep='\n')
 
 
 def calculate_confusion_matrix(csv):
@@ -56,18 +145,6 @@ def calculate_confusion_matrix(csv):
 
     print(*confusion_matrix, sep='\n')
 
-
-''' VARIABLES '''
-training_csv = None
-testing_csv = None
-petal_length_setosa, petal_width_setosa = [], []
-petal_length_versicolor, petal_width_versicolor = [], []
-petal_length_virginica, petal_width_virginica = [], []
-
-''' MEANS '''
-petal_length_setosa_mean, petal_width_setosa_mean = 0, 0
-petal_length_versicolor_mean, petal_width_versicolor_mean = 0, 0
-petal_length_virginica_mean, petal_width_virginica_mean = 0, 0
 
 with open('training.csv') as training_file:
     csv_reader = reader(training_file)
@@ -121,61 +198,11 @@ with open('testing.csv') as testing_file:
 
     ''' Part 2 '''
     print('PART 2')
-    list_euclidean = []
 
-    for i in testing_csv:
-        temp_results = []
-
-        for j in training_csv:
-            temp_results.append([math.sqrt(
-                math.pow((float(i[0]) - float(j[0])), 2) + math.pow((float(i[1]) - float(j[1])),
-                                                                    2)), j[2]])
-        list_euclidean.append(sorted(temp_results))  # Sorting all of the euclidean
-
-    k = 1
-
-    for k in range(1, 10, 2):
-        confusion_matrix = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ]
-
-        for i in list_euclidean:
-            setosa, versicolor, virginica = 0, 0, 0
-
-            for j in range(k):
-                if i[j][1] == "Iris-setosa":
-                    setosa += 1
-                elif i[j][1] == "Iris-versicolor":
-                    versicolor += 1
-                elif i[j][1] == "Iris-virginica":
-                    virginica += 1
-
-            if virginica > setosa and virginica > versicolor:
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-setosa":
-                    confusion_matrix[2][0] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-versicolor":
-                    confusion_matrix[2][1] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-virginica":
-                    confusion_matrix[2][2] += 1
-            elif setosa > versicolor and setosa > virginica:
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-setosa":
-                    confusion_matrix[0][0] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-versicolor":
-                    confusion_matrix[0][1] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-virginica":
-                    confusion_matrix[0][2] += 1
-            elif versicolor > setosa and versicolor > virginica:
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-setosa":
-                    confusion_matrix[1][0] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-versicolor":
-                    confusion_matrix[1][1] += 1
-                if testing_csv[list_euclidean.index(i)][2] == "Iris-virginica":
-                    confusion_matrix[1][2] += 1
-
-        print("Confusion matrix k = ", k)
-        print(*confusion_matrix, sep='\n')
+    print('Training part 2')
+    part2(training_csv)
+    print('Testing part 2')
+    part2(testing_csv)
 
 if __name__ == '__main__':
     print('Length : ', petal_length_setosa_mean, 'Width : ', petal_width_setosa_mean)
