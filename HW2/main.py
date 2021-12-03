@@ -32,8 +32,8 @@ def part2(data):
     for i in data:
         temp_results = []
 
-        # if data == training_csv:
-        if len(data) > 60:
+        if data == training_csv:
+        # if len(data) > 60:
             for j in training_csv:
                 if i == j:
                     temp_results.append([math.inf, j[2]])
@@ -209,8 +209,4 @@ with open('testing.csv') as testing_file:
     part2(training_csv)
     print('Testing part 2')
     part2(testing_csv)
-#
-# if __name__ == '__main__':
-#     print('Length : ', petal_length_setosa_mean, 'Width : ', petal_width_setosa_mean)
-#     print('Length : ', petal_length_versicolor_mean, 'Width : ', petal_width_versicolor_mean)
-#     print('Length : ', petal_length_virginica_mean, 'Width : ', petal_width_virginica_mean)
+
